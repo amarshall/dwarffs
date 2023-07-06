@@ -1,9 +1,7 @@
 {
   description = "A filesystem that fetches DWARF debug info from the Internet on demand";
 
-  inputs.nixpkgs.follows = "nix/nixpkgs";
-
-  outputs = { self, nix, nixpkgs }:
+  outputs = { self, nixpkgs }:
 
     let
       supportedSystems = [ "x86_64-linux" "i686-linux" "aarch64-linux" ];
@@ -41,7 +39,7 @@
 
       defaultPackage = forAllSystems (system: (import nixpkgs {
         inherit system;
-        overlays = [ self.overlay nix.overlays.default ];
+        overlays = [ self.overlay ];
       }).dwarffs);
 
       checks = forAllSystems (system: {
